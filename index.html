@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASPIRA AI - Gotong Royong Digital</title>
+    <meta name="description" content="Suarakan Keluhan Anda, Kami Siap Mendengar. Tidak perlu mengetik. Cukup tekan tombol dan bicara untuk membantu desa kita.">
+    <link rel="preconnect" href="https://fonts.googleapis.family">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <img src="logo.png" alt="ASPIRA AI Logo" class="logo-img">
+                <span class="logo-text">ASPIRA AI</span>
+            </div>
+            <button class="hamburger" id="hamburger-menu" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-right" id="nav-menu">
+                <nav class="nav-links">
+                    <a href="#beranda" class="nav-link">Beranda</a>
+                    <a href="#cara-kerja" class="nav-link">Cara Kerja</a>
+                    <a href="#tentang" class="nav-link">Tentang</a>
+                </nav>
+                <a href="aspira.apk" download="aspira.apk" class="btn btn-primary nav-btn">Download</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="beranda" class="hero">
+            <div class="hero-bg">
+                <img src="hero_bg.png" alt="Pemandangan desa yang indah" class="hero-image">
+            </div>
+            <div class="container hero-container">
+                <div class="hero-card">
+                    <h1>Suarakan Keluhan Anda,<br>Kami Siap Mendengar.</h1>
+                    <p>Tidak perlu mengetik. Cukup tekan tombol dan bicara untuk membantu desa kita.</p>
+                    <a href="aspira.apk" download="aspira.apk" class="btn btn-primary">Unduh Aplikasi Sekarang</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="cara-kerja" class="features">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Hanya 3 Langkah Mudah</h2>
+                    <div class="title-underline"></div>
+                </div>
+                
+                <div class="features-grid">
+                    <!-- Step 1 -->
+                    <div class="feature-card">
+                        <div class="icon-wrapper">
+                            <div class="icon-circle">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M15 15l-4-4"></path>
+                                    <path d="M11 11a4 4 0 1 0-5.65 5.66l3.53 3.53a4 4 0 0 0 5.65-5.65l-3.53-3.54"></path>
+                                    <path d="M18 10h.01"></path>
+                                    <path d="M22 14h.01"></path>
+                                    <path d="M14 6h.01"></path>
+                                    <path d="M10 2h.01"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3>1. Tekan Tombol</h3>
+                        <p>Klik tombol hijau besar di layar Anda.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="feature-card">
+                        <div class="icon-wrapper">
+                            <div class="icon-circle">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                    <line x1="12" x2="12" y1="19" y2="22"></line>
+                                    <path d="M22 6c-2 2-3 2-3 2"></path>
+                                    <path d="M22 12c-2 0-3-2-3-2"></path>
+                                    <path d="M22 2c-2-2-3-2-3-2"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3>2. Bicara Saja</h3>
+                        <p>Ceritakan keluhan Anda dengan bahasa sehari-hari.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="feature-card">
+                        <div class="icon-wrapper">
+                            <div class="icon-circle">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <path d="M9 15l2 2 4-4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3>3. Selesai</h3>
+                        <p>Laporan Anda langsung terkirim ke Pak Desa dalam bentuk tulisan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tentang" class="cta">
+            <div class="container cta-container">
+                <h2>Membangun desa lebih<br>mudah dengan suara<br>Anda. Gotong royong<br>digital dimulai dari sini.</h2>
+                <button class="btn btn-outline">Tentang<br>ASPIRA</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-logo">
+                <img src="logo.png" alt="ASPIRA AI Logo" class="logo-img">
+                <span class="logo-text">ASPIRA AI</span>
+            </div>
+            <div class="footer-links">
+                <a href="#">Hubungi Kami</a>
+                <a href="#">Tentang ASPIRA</a>
+                <a href="#">Privasi</a>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2024 ASPIRA - Gotong Royong Digital</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger-menu');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
