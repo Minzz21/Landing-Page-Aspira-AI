@@ -12,10 +12,189 @@
     --border-radius-lg: 12px;
 }
 
+/* PRELOADER */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.preloader--hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.preloader__spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(11, 41, 46, 0.15);
+    border-top-color: var(--secondary-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* KEYFRAMES */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(19, 56, 39, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 12px rgba(19, 56, 39, 0);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(19, 56, 39, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(19, 56, 39, 0.2), 0 0 40px rgba(19, 56, 39, 0.1);
+    }
+}
+
+@keyframes rippleEffect {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* SCROLL ANIMATION CLASSES */
+[data-animate] {
+    opacity: 0;
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+[data-animate="fade-up"] {
+    transform: translateY(40px);
+}
+
+[data-animate="fade-down"] {
+    transform: translateY(-30px);
+}
+
+[data-animate="fade-left"] {
+    transform: translateX(-40px);
+}
+
+[data-animate="fade-right"] {
+    transform: translateX(40px);
+}
+
+[data-animate="scale-in"] {
+    transform: scale(0.85);
+}
+
+[data-animate="fade-in"] {
+    transform: none;
+}
+
+.animate--visible {
+    opacity: 1 !important;
+    transform: translateY(0) translateX(0) scale(1) !important;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -56,11 +235,27 @@ a {
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Ripple effect */
+.btn .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(0);
+    animation: rippleEffect 0.7s ease-out;
+    pointer-events: none;
 }
 
 .btn-primary {
     background-color: var(--secondary-color);
     color: var(--white);
+}
+
+.btn-primary.btn--pulse {
+    animation: pulse 2.5s ease-in-out infinite;
 }
 
 .btn-primary:hover {
@@ -91,6 +286,19 @@ a {
     top: 0;
     z-index: 100;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: background-color 0.4s ease,
+                box-shadow 0.4s ease,
+                padding 0.4s ease,
+                backdrop-filter 0.4s ease;
+}
+
+.navbar--scrolled {
+    background-color: rgba(245, 246, 248, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 0.8rem 0;
+    border-bottom-color: transparent;
 }
 
 .nav-container {
@@ -159,6 +367,27 @@ a {
 .nav-link {
     font-weight: 700;
     font-size: 0.95rem;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--secondary-color);
+    transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link:hover::after,
+.nav-link--active::after {
+    width: 100%;
+}
+
+.nav-link--active {
+    color: var(--secondary-color);
 }
 
 .nav-link:hover {
@@ -253,12 +482,16 @@ a {
     border-radius: var(--border-radius-lg);
     padding: 3rem 2rem;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.4s ease;
 }
 
 .feature-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 16px 32px rgba(11, 41, 46, 0.12),
+                0 0 0 1px rgba(19, 56, 39, 0.08);
+    border-color: var(--secondary-color);
 }
 
 .icon-wrapper {
@@ -277,6 +510,17 @@ a {
     align-items: center;
     justify-content: center;
     color: var(--primary-color);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                background-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+.feature-card:hover .icon-circle {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    border-color: var(--secondary-color);
+    box-shadow: 0 8px 24px rgba(19, 56, 39, 0.25);
+    animation: float 2s ease-in-out infinite;
 }
 
 .feature-card h3 {
@@ -296,6 +540,25 @@ a {
     color: var(--white);
     padding: 6rem 0;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 300%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.03),
+        transparent
+    );
+    animation: shimmer 8s ease-in-out infinite;
+    pointer-events: none;
 }
 
 .cta-container {
@@ -303,6 +566,8 @@ a {
     flex-direction: column;
     align-items: center;
     gap: 2.5rem;
+    position: relative;
+    z-index: 1;
 }
 
 .cta h2 {
@@ -333,6 +598,25 @@ a {
     font-size: 0.9rem;
     font-weight: 500;
     color: #555;
+}
+
+.footer-links a {
+    position: relative;
+}
+
+.footer-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1.5px;
+    background-color: var(--primary-color);
+    transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.footer-links a:hover::after {
+    width: 100%;
 }
 
 .footer-links a:hover {
@@ -447,5 +731,43 @@ a {
     
     .cta h2 {
         font-size: 1.5rem;
+    }
+}
+
+/* TYPED TEXT CURSOR */
+[data-typed]::after {
+    content: '|';
+    font-weight: 300;
+    animation: blink 0.8s step-end infinite;
+    margin-left: 2px;
+    color: var(--secondary-color);
+}
+
+[data-typed].typed--done::after {
+    animation: blink 0.8s step-end infinite 2s;
+    animation-fill-mode: forwards;
+    opacity: 0;
+    animation-delay: 0s;
+    animation-duration: 0s;
+}
+
+/* PREFERS REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    [data-animate] {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .preloader {
+        display: none !important;
     }
 }

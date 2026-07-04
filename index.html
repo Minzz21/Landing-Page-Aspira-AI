@@ -12,6 +12,11 @@
     <link rel="icon" type="image/png" href="logo.png">
 </head>
 <body>
+    <!-- Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="preloader__spinner"></div>
+    </div>
+
     <header class="navbar">
         <div class="container nav-container">
             <div class="logo">
@@ -40,24 +45,24 @@
                 <img src="hero_bg.png" alt="Pemandangan desa yang indah" class="hero-image">
             </div>
             <div class="container hero-container">
-                <div class="hero-card">
-                    <h1>Suarakan Keluhan Anda,<br>Kami Siap Mendengar.</h1>
-                    <p>Tidak perlu mengetik. Cukup tekan tombol dan bicara untuk membantu desa kita.</p>
-                    <a href="aspira.apk" download="aspira.apk" class="btn btn-primary">Unduh Aplikasi Sekarang</a>
+                <div class="hero-card" data-animate="scale-in">
+                    <h1>Suarakan Keluhan Anda,<br><span data-typed="Kami Siap Mendengar."></span></h1>
+                    <p data-animate="fade-up" data-delay="400">Tidak perlu mengetik. Cukup tekan tombol dan bicara untuk membantu desa kita.</p>
+                    <a href="aspira.apk" download="aspira.apk" class="btn btn-primary btn--pulse" data-animate="fade-up" data-delay="600">Unduh Aplikasi Sekarang</a>
                 </div>
             </div>
         </section>
 
         <section id="cara-kerja" class="features">
             <div class="container">
-                <div class="section-title">
+                <div class="section-title" data-animate="fade-up">
                     <h2>Hanya 3 Langkah Mudah</h2>
                     <div class="title-underline"></div>
                 </div>
                 
                 <div class="features-grid">
                     <!-- Step 1 -->
-                    <div class="feature-card">
+                    <div class="feature-card" data-animate="fade-up" data-delay="0">
                         <div class="icon-wrapper">
                             <div class="icon-circle">
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -70,12 +75,12 @@
                                 </svg>
                             </div>
                         </div>
-                        <h3>1. Tekan Tombol</h3>
+                        <h3><span data-count="1">0.</span> Tekan Tombol</h3>
                         <p>Klik tombol hijau besar di layar Anda.</p>
                     </div>
 
                     <!-- Step 2 -->
-                    <div class="feature-card">
+                    <div class="feature-card" data-animate="fade-up" data-delay="150">
                         <div class="icon-wrapper">
                             <div class="icon-circle">
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -88,12 +93,12 @@
                                 </svg>
                             </div>
                         </div>
-                        <h3>2. Bicara Saja</h3>
+                        <h3><span data-count="2">0.</span> Bicara Saja</h3>
                         <p>Ceritakan keluhan Anda dengan bahasa sehari-hari.</p>
                     </div>
 
                     <!-- Step 3 -->
-                    <div class="feature-card">
+                    <div class="feature-card" data-animate="fade-up" data-delay="300">
                         <div class="icon-wrapper">
                             <div class="icon-circle">
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -103,7 +108,7 @@
                                 </svg>
                             </div>
                         </div>
-                        <h3>3. Selesai</h3>
+                        <h3><span data-count="3">0.</span> Selesai</h3>
                         <p>Laporan Anda langsung terkirim ke Pak Desa dalam bentuk tulisan.</p>
                     </div>
                 </div>
@@ -112,24 +117,24 @@
 
         <section id="tentang" class="cta">
             <div class="container cta-container">
-                <h2>Membangun desa lebih<br>mudah dengan suara<br>Anda. Gotong royong<br>digital dimulai dari sini.</h2>
-                <button class="btn btn-outline">Tentang<br>ASPIRA</button>
+                <h2 data-animate="fade-up">Membangun desa lebih<br>mudah dengan suara<br>Anda. Gotong royong<br>digital dimulai dari sini.</h2>
+                <button class="btn btn-outline" data-animate="fade-up" data-delay="200">Tentang<br>ASPIRA</button>
             </div>
         </section>
     </main>
 
-    <footer>
+    <footer data-animate="fade-up">
         <div class="container footer-container">
-            <div class="footer-logo">
+            <div class="footer-logo" data-animate="fade-right" data-delay="100">
                 <img src="logo.png" alt="ASPIRA AI Logo" class="logo-img">
                 <span class="logo-text">ASPIRA AI</span>
             </div>
-            <div class="footer-links">
+            <div class="footer-links" data-animate="fade-up" data-delay="200">
                 <a href="#">Hubungi Kami</a>
                 <a href="#">Tentang ASPIRA</a>
                 <a href="#">Privasi</a>
             </div>
-            <div class="footer-copyright">
+            <div class="footer-copyright" data-animate="fade-left" data-delay="300">
                 <p>&copy; 2024 ASPIRA - Gotong Royong Digital</p>
             </div>
         </div>
@@ -144,5 +149,6 @@
             hamburger.classList.toggle('active');
         });
     </script>
+    <script src="animations.js"></script>
 </body>
 </html>
