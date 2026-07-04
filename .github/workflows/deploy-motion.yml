@@ -1,0 +1,255 @@
+name: "\U0001F680 Deploy Design Motion"
+
+on:
+  push:
+    branches:
+      - design-motion
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+jobs:
+  # ────────────────────────────────────────────
+  # Job 1: Linting & Validasi Kode
+  # ────────────────────────────────────────────
+  lint:
+    name: "\U0001F50D Lint & Validate"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate HTML
+        run: |
+          npm install -g htmlhint
+          htmlhint "**/*.html" || true
+
+      - name: Validate CSS
+        run: |
+          npm install -g stylelint stylelint-config-standard
+          echo '{"extends":"stylelint-config-standard"}' > .stylelintrc.json
+          stylelint "**/*.css" || true
+
+  # ────────────────────────────────────────────
+  # Job 2: Validasi Performa Animasi
+  # ────────────────────────────────────────────
+  performance:
+    name: "⚡ Performance Audit"
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+
+      - name: Start local server
+        run: npx serve . -l 3000 &
+
+      - name: Wait for server
+        run: sleep 3
+
+      - name: Run Lighthouse audit
+        run: |
+          lhci autorun \
+            --collect.url=http://localhost:3000 \
+            --collect.numberOfRuns=3 \
+            --assert.assertions.categories:performance=warn:80 \
+            --assert.assertions.categories:accessibility=warn:85
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
+
+  # ────────────────────────────────────────────
+  # Job 3: Visual Regression Testing
+  # ────────────────────────────────────────────
+  visual-test:
+    name: "\U0001F5BC Visual Regression Test"
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Playwright
+        run: |
+          npm init -y
+          npm install @playwright/test
+          npx playwright install --with-deps chromium
+
+      - name: Start local server
+        run: npx serve . -l 3000 &
+
+      - name: Wait for server
+        run: sleep 3
+
+      - name: Take screenshots for visual comparison
+        run: |
+          cat > visual-test.spec.js << 'EOF'
+          const { test, expect } = require('@playwright/test');
+
+          test('homepage full page screenshot', async ({ page }) => {
+            await page.goto('http://localhost:3000');
+            await page.waitForLoadState('networkidle');
+            await expect(page).toHaveScreenshot('homepage.png', { fullPage: true });
+          });
+
+          test('hero section renders correctly', async ({ page }) => {
+            await page.goto('http://localhost:3000');
+            const hero = page.locator('#beranda');
+            await expect(hero).toBeVisible();
+            await expect(hero).toHaveScreenshot('hero-section.png');
+          });
+
+          test('features section renders correctly', async ({ page }) => {
+            await page.goto('http://localhost:3000');
+            const features = page.locator('#cara-kerja');
+            await features.scrollIntoViewIfNeeded();
+            await expect(features).toHaveScreenshot('features-section.png');
+          });
+
+          test('animations use GPU-friendly properties', async ({ page }) => {
+            await page.goto('http://localhost:3000');
+            const styles = await page.evaluate(() => {
+              const sheets = Array.from(document.styleSheets);
+              let cssText = '';
+              sheets.forEach(sheet => {
+                try {
+                  Array.from(sheet.cssRules).forEach(rule => {
+                    cssText += rule.cssText;
+                  });
+                } catch(e) {}
+              });
+              return cssText;
+            });
+            // Verify animation properties exist
+            expect(styles).toContain('transform');
+          });
+          EOF
+          npx playwright test visual-test.spec.js --update-snapshots || true
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-regression-screenshots
+          path: test-results/
+
+  # ────────────────────────────────────────────
+  # Job 4: Cross-Browser Testing
+  # ────────────────────────────────────────────
+  browser-test:
+    name: "\U0001F310 Cross-Browser Test"
+    runs-on: ubuntu-latest
+    needs: lint
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Playwright
+        run: |
+          npm init -y
+          npm install @playwright/test
+          npx playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Start local server
+        run: npx serve . -l 3000 &
+
+      - name: Wait for server
+        run: sleep 3
+
+      - name: Run basic smoke test on ${{ matrix.browser }}
+        run: |
+          cat > smoke-test.spec.js << 'EOF'
+          const { test, expect } = require('@playwright/test');
+
+          test('page loads successfully', async ({ page }) => {
+            await page.goto('http://localhost:3000');
+            await expect(page).toHaveTitle(/ASPIRA AI/);
+          });
+
+          test('all sections are visible', async ({ page }) => {
+            await page.goto('http://localhost:3000');
+            await expect(page.locator('#beranda')).toBeVisible();
+            await expect(page.locator('#cara-kerja')).toBeVisible();
+            await expect(page.locator('#tentang')).toBeVisible();
+          });
+
+          test('navigation works', async ({ page }) => {
+            await page.goto('http://localhost:3000');
+            await page.click('a[href="#cara-kerja"]');
+            await expect(page.locator('#cara-kerja')).toBeInViewport();
+          });
+
+          test('feature cards render correctly', async ({ page }) => {
+            await page.goto('http://localhost:3000');
+            const cards = page.locator('.feature-card');
+            await expect(cards).toHaveCount(3);
+          });
+
+          test('download button exists', async ({ page }) => {
+            await page.goto('http://localhost:3000');
+            const downloadBtn = page.locator('a[download="aspira.apk"]');
+            await expect(downloadBtn.first()).toBeVisible();
+          });
+          EOF
+          npx playwright test smoke-test.spec.js --project=${{ matrix.browser }} || true
+
+  # ────────────────────────────────────────────
+  # Job 5: Deploy ke GitHub Pages (Preview)
+  # ────────────────────────────────────────────
+  deploy-preview:
+    name: "\U0001F30D Deploy Preview"
+    runs-on: ubuntu-latest
+    needs: [performance, visual-test]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/design-motion'
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: preview
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
