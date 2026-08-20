@@ -32,6 +32,7 @@
                 <nav class="nav-links">
                     <a href="#beranda" class="nav-link">Beranda</a>
                     <a href="#cara-kerja" class="nav-link">Cara Kerja</a>
+                    <a href="#preview" class="nav-link">Preview</a>
                     <a href="#tentang" class="nav-link">Tentang</a>
                 </nav>
                 <a href="aspira.apk" download="aspira.apk" class="btn btn-primary nav-btn">Download</a>
@@ -115,6 +116,87 @@
             </div>
         </section>
 
+        <section id="preview" class="app-preview">
+            <div class="container">
+                <div class="section-title" data-animate="fade-up">
+                    <h2>Lihat Tampilan Aplikasi</h2>
+                    <div class="title-underline"></div>
+                    <p class="section-subtitle">Antarmuka sederhana yang bisa digunakan siapa saja</p>
+                </div>
+
+                <div class="preview-carousel" data-animate="scale-in" data-delay="200">
+                    <div class="phone-mockup">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <div class="carousel-track" id="carousel-track">
+                                <div class="carousel-slide active">
+                                    <img src="image/preview-1-beranda.jpg" alt="Halaman Beranda - Merekam Suara" loading="lazy">
+                                </div>
+                                <div class="carousel-slide">
+                                    <img src="image/preview-5-tiket.jpg" alt="Lacak Tiket Laporan" loading="lazy">
+                                </div>
+                                <div class="carousel-slide">
+                                    <img src="image/preview-2-review.jpg" alt="Halaman Review - AI Mentranskripsi" loading="lazy">
+                                </div>
+                                <div class="carousel-slide">
+                                    <img src="image/preview-3-terkirim.jpg" alt="Aspirasi Berhasil Terkirim" loading="lazy">
+                                </div>
+                                <div class="carousel-slide">
+                                    <img src="image/preview-4-notifikasi.jpg" alt="Notifikasi Status Laporan" loading="lazy">
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-controls">
+                        <div class="carousel-dots" id="carousel-dots">
+                            <button class="carousel-dot active" data-index="0" aria-label="Slide 1"></button>
+                            <button class="carousel-dot" data-index="1" aria-label="Slide 2"></button>
+                            <button class="carousel-dot" data-index="2" aria-label="Slide 3"></button>
+                            <button class="carousel-dot" data-index="3" aria-label="Slide 4"></button>
+                            <button class="carousel-dot" data-index="4" aria-label="Slide 5"></button>
+                            
+                        </div>
+                        <div class="carousel-captions">
+                            <span class="carousel-caption active" data-index="0">Beranda</span>
+                            <span class="carousel-caption" data-index="1">Lacak Tiket</span>
+                            <span class="carousel-caption" data-index="2">Review AI</span>
+                            <span class="carousel-caption" data-index="3">Terkirim</span>
+                            <span class="carousel-caption" data-index="4">Notifikasi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard" class="dashboard-preview">
+            <div class="container">
+                <div class="section-title" data-animate="fade-up">
+                    <h2>Dashboard Perangkat Desa</h2>
+                    <div class="title-underline"></div>
+                    <p class="section-subtitle">Kelola laporan warga secara real-time dengan panel admin yang lengkap</p>
+                </div>
+
+                <div class="browser-mockup" data-animate="fade-up" data-delay="200">
+                    <div class="browser-topbar">
+                        <div class="browser-dots">
+                            <span class="dot dot--red"></span>
+                            <span class="dot dot--yellow"></span>
+                            <span class="dot dot--green"></span>
+                        </div>
+                        <div class="browser-url">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            <span>aspira-ai.desa.id/dashboard</span>
+                        </div>
+                    </div>
+                    <div class="browser-content">
+                        <img src="image/preview-dashboard.png" alt="Dashboard Admin ASPIRA AI - Kelola Laporan Warga" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="tentang" class="cta">
             <div class="container cta-container">
                 <h2 data-animate="fade-up">Membangun desa lebih<br>mudah dengan suara<br>Anda. Gotong royong<br>digital dimulai dari sini.</h2>
@@ -148,6 +230,35 @@
             navMenu.classList.toggle('active');
             hamburger.classList.toggle('active');
         });
+    </script>
+    <script>
+        // App Preview Carousel - Manual Dot Navigation
+        (function() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('.carousel-dot');
+            const captions = document.querySelectorAll('.carousel-caption');
+            let currentIndex = 0;
+
+            function goToSlide(index) {
+                slides[currentIndex].classList.remove('active');
+                dots[currentIndex].classList.remove('active');
+                captions[currentIndex].classList.remove('active');
+
+                currentIndex = index;
+
+                slides[currentIndex].classList.add('active');
+                dots[currentIndex].classList.add('active');
+                captions[currentIndex].classList.add('active');
+            }
+
+            // Dot click handlers
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const index = parseInt(dot.getAttribute('data-index'));
+                    goToSlide(index);
+                });
+            });
+        })();
     </script>
     <script src="animations.js"></script>
 </body>
